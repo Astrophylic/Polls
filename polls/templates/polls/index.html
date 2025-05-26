@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Polls</title>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white url("{% static 'polls/img/fondo.jpg' %}") no-repeat;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #333;
+            padding: 10px;
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        .poll-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .poll-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .poll-item a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .badge {
+            background-color: #6c757d;
+            float: right;
+        }
+        
+        .no-polls {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'polls:index' %}">The Polls App</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'polls:index' %}">Introduction </a></li>
+                <li><a href="{% url 'polls:signin' %}">Sign in</a></li>
+                <li><a href="{% url 'polls:signup' %}">Sign up</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Introduccion a la app(mirar) -->
+    <div class="container">
+        <h1>Welcome to the Polls App!</h1>
+        <p class="text-center">Secure and free page where you can participate in surveys.</p>
+        
+        <h2>Latest surveys available</h2>
+        {% if latest_question_list %}
+            <ul class="poll-list">
+                {% for question in latest_question_list %}
+                <li class="poll-item">
+                    <a href="{% url 'polls:detail' question.id %}">
+                        {{ question.question_text }}
+                        <span class="badge">{{ question.choice_set.count }} options</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-polls">There are no surveys available at this time.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

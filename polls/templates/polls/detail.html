@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vote: {{ question.question_text }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .vote-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .choice-option {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .error-message {
+            color:rgb(94, 52, 56);
+            font-weight: bold;
+            text-align: center;
+        }
+        .btn-vote {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color:rgb(51, 66, 88);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<!-- Echarle un ojo -->
+<body>
+    <div class="vote-container">
+        <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <h1>{{ question.question_text }}</h1>
+            
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+
+            <div class="choices-list">
+                {% for choice in question.choice_set.all %}
+                    <div class="choice-option">
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results: {{ question.question_text }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .results-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .results-list {
+            list-style: none;
+            padding: 0;
+        }
+        .result-item {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .vote-again {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color:rgb(34, 52, 78);
+            text-decoration: none;
+        }
+        .vote-again:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<!-- mirar errores -->
+<body>
+    <div class="results-container">
+        <h1>{{ question.question_text }}</h1>
+
+        <ul class="results-list">
+            {% for choice in question.choice_set.all %}
+                <li class="result-item">
+                    <span>{{ choice.choice_text }}</span>
+                    <span><strong>{{ choice.votes }} vote{{ choice.votes}}</strong></span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'polls:detail' question.id %}" class="vote-again">Vote again?</a>
+    </div>
+</body>
+</html>
