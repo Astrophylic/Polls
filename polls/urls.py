@@ -1,9 +1,6 @@
 from django.urls import path
 from . import views
 
-
-from . import views
-
 app_name = "polls"
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
@@ -14,4 +11,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('overview/', views.overview, name='overview'),
     path('orders/', views.orders, name='orders'),
+    path('horario/', views.horario, name='horario'),
 ]

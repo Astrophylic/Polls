@@ -97,4 +97,6 @@ def orders(request):
     question = Question.objects.first() 
     return render(request, 'polls/orders.html', {'question': question})
                
+def horario(request):
+    return render(request, 'polls/horario.html')
 
