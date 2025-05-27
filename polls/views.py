@@ -3,9 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404,render
 from django.urls import reverse
 from django.views import generic
-from datetime import timedelta
-
-from .models import Choice, Question
+from .models import Choice, Question, TimeRecord
 from django.utils import timezone
 
 
@@ -62,6 +60,8 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
     
     
+  
+    
     class QuestionDetailViewTests(TestCase):
         def test_future_question(self):
             """
@@ -111,3 +111,27 @@ def contadorhorario(request):
         
         return render(request,'templates/polls/horario.html',{'horas':hh, 'minutos': mm})
 """
+
+
+class TimeRecordListView(generic.ListView):
+    model = TimeRecord
+    template_name = "polls/timerecordlist.html"
+
+    def get_queryset(self):
+        return TimeRecord.objects.all().order_by("fecha_checkin")
+
+class TimeRecordCreateView(generic.CreateView):
+    model  = TimeRecord
+    fields = ["nombre_usuario", "fecha_checkin", "fecha_checkout", "duracion"]
+    template_name = "polls/timerecordlist.html" #provisional
+ 
+class TimeRecordUpdateView(generic.UpdateView):
+    model = TimeRecord
+    fields = ["nombre_usuario", "fecha_checkin", "fecha_checkout", "duracion"]
+    template_name = "polls/timerecordlist.html" #provisional
+    
+class TimeRecordDeleteView(generic.DeleteView):
+    model = TimeRecord
+    template_name = "polls/timerecordlist.html" #provisional
+    
+    

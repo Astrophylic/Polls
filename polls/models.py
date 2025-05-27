@@ -22,3 +22,9 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+    
+class TimeRecord(models.Model):
+    nombre_usuario = models.CharField(max_length=100)
+    fecha_checkin = models.DateTimeField()
+    fecha_checkout = models.DateTimeField()
+    duracion = models.IntegerField(default= 0)
