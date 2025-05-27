@@ -12,4 +12,5 @@ urlpatterns = [
     path('overview/', views.overview, name='overview'),
     path('orders/', views.orders, name='orders'),
     path('horario/', views.horario, name='horario'),
+    #path('contadorhorario/', views.contadorhorario, name='contadorhorario'),
 ]

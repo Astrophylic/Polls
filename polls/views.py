@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404,render
 from django.urls import reverse
 from django.views import generic
+from datetime import timedelta
 
 from .models import Choice, Question
 from django.utils import timezone
@@ -100,3 +101,13 @@ def orders(request):
 def horario(request):
     return render(request, 'polls/horario.html')
 
+"""
+def contadorhorario(request):
+        cont = timedelta(hours=7,minutes=0)
+        total = cont
+        
+        hh = total.seconds //3600
+        mm = (total.seconds % 3600) //60
+        
+        return render(request,'templates/polls/horario.html',{'horas':hh, 'minutos': mm})
+"""
