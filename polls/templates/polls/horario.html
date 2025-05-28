@@ -23,17 +23,27 @@
     <br>
 
     <h4> Polls | Check in / Check out</h4>
-    <span>{{ horas }}h {{ minutos }}m {{ segundos }}s</span>
-    <br>
-    <form method="post" action="{% url 'polls:check_in' %}">
-        {% csrf_token %}
+    <p> Bienvenido/a {{ request.user.username }} </p>
+    <p> Horas trabajadas en el día de hoy: {{ horas }} horas {{ minutos }} minutos {{ segundos }} segundos </p>
+
+    <!-- alineado y con margen los botones(pendiente poner mas bonito) -->
+    <style>
+        .botonestrabajo form {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+
+    <div class="botonestrabajo">
+        <form method="post" action="{% url 'polls:checkin' %}">
+            {% csrf_token %}
             <button type="submit">Check-in</button>
-    </form>
-    <br>
-    <form method="post" action="{% url 'polls:check_out' %}">
-        {% csrf_token %}
+        </form>
+        <form method="post" action="{% url 'polls:checkout' %}">
+            {% csrf_token %}
             <button type="submit">Check-out</button>
-    </form>
+        </form>
+    </div>
 
 
 

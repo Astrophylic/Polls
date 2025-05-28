@@ -122,30 +122,44 @@ def orders(request):
     return render(request, 'polls/orders.html', {'question': question})
                
 def horario(request):
+    tiempo = None
+    trabajando = False
     usuarios = User.objects.all()
-    checkout = TimeRecord.objects.filter(nombre_usuario=request.user.username, fecha_checkout__isnull=True).last()
-    horas = minutos = segundos = 0
-    if checkout:
-        total = checkout.duration
-        horas = total // 3600
-        minutos = (total % 3600) // 60
-        segundos = total % 60
-    return render(request, 'polls/horario.html', { 'usuarios': usuarios, 'registro': checkout,'horas': horas,'minutos': minutos, 'segundos': segundos})
-    
 
-def check_in(request):
-    if request.method == "POST":
-        if not TimeRecord.objects.filter(nombre_usuario=request.user.username):
-            TimeRecord.objects.create(nombre_usuario=request.user.username)
+    if 'inicio' in request.session:
+        trabajando = True
+        inicio = request.session['inicio']
+        ahora = timezone.now().timestamp()
+        tiempo = int(ahora - inicio)
+    elif 'tiempo_total' in request.session:
+        tiempo = int(request.session['tiempo_total'])
+
+    horas = minutos = segundos = 0
+    if tiempo is not None:
+        horas = tiempo // 3600
+        minutos = (tiempo % 3600) // 60
+        segundos = tiempo % 60
+
+    return render(request, 'polls/horario.html', {
+        'usuarios': usuarios,
+        'corriendo': trabajando,
+        'horas': horas,
+        'minutos': minutos,
+        'segundos': segundos
+    })
+
+def checkin(request):
+    request.session['inicio'] = timezone.now().timestamp()
+    request.session.pop('tiempo_total', None)
     return redirect('polls:horario')
 
-
-def check_out(request):
-    if request.method == "POST":
-        checkout = TimeRecord.objects.filter(nombre_usuario=request.user.username).last()
-        if checkout:
-            checkout.fecha_checkout = timezone.now()
-            checkout.save()
+def checkout(request):
+    if 'inicio' in request.session:
+        inicio = request.session['inicio']
+        ahora = timezone.now().timestamp()
+        tiempo_total = int(ahora - inicio)
+        request.session['tiempo_total'] = tiempo_total
+        del request.session['inicio']
     return redirect('polls:horario')
 
 #Pendiente cambiar el nombre del archivo "horario.html" a "controlhoras.html"
