@@ -25,9 +25,9 @@ class Choice(models.Model):
     
 class TimeRecord(models.Model):
     nombre_usuario = models.CharField(max_length=100)
-    fecha_checkin = models.DateTimeField(default=timezone.now)
-    fecha_checkout = models.DateTimeField(default = timezone.now)
-    duracion = models.IntegerField(default= 0)
+    fecha = models.DateField()
+    duracion = models.FloatField()
+
     
     @property
     def duration(self):

@@ -125,7 +125,7 @@ def horario(request):
     tiempo = None
     trabajando = False
     usuarios = User.objects.all()
-
+    
     if 'inicio' in request.session:
         trabajando = True
         inicio = request.session['inicio']
@@ -142,25 +142,24 @@ def horario(request):
 
     return render(request, 'polls/horario.html', {
         'usuarios': usuarios,
-        'corriendo': trabajando,
+        'trabajando': trabajando,
         'horas': horas,
         'minutos': minutos,
-        'segundos': segundos
+        'segundos': segundos,
     })
 
 def checkin(request):
     request.session['inicio'] = timezone.now().timestamp()
-    request.session.pop('tiempo_total', None)
     return redirect('polls:horario')
 
 def checkout(request):
     if 'inicio' in request.session:
         inicio = request.session['inicio']
         ahora = timezone.now().timestamp()
-        tiempo_total = int(ahora - inicio)
-        request.session['tiempo_total'] = tiempo_total
-        del request.session['inicio']
+        #duracion = int(ahora - inicio)
     return redirect('polls:horario')
+
+    
 
 #Pendiente cambiar el nombre del archivo "horario.html" a "controlhoras.html"
 
