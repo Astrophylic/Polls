@@ -1,26 +1,43 @@
 <!-- Pruebas// Cambiar el nombre del archivo a uno mas coherente-->
 {% extends 'polls/base.html' %}
 {% load static %}
-    
-    {% block content %}
+
+{% block content %}
+    <head><meta http-equiv="refresh" content="60"></head>
     <h4> Polls | Listado de trabajadores </h4>
     <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Usuarios</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for x in usuarios %}
-                <tr>
-                    <td>{{ x.username }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Usuarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in usuarios %}
+            <tr>
+                <td>{{ x.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <br>
-    {% endblock %}
+
+    <h4> Polls | Check in / Check out</h4>
+    <span>{{ horas }}h {{ minutos }}m {{ segundos }}s</span>
+    <br>
+    <form method="post" action="{% url 'polls:check_in' %}">
+        {% csrf_token %}
+            <button type="submit">Check-in</button>
+    </form>
+    <br>
+    <form method="post" action="{% url 'polls:check_out' %}">
+        {% csrf_token %}
+            <button type="submit">Check-out</button>
+    </form>
+
+
+
+{% endblock %}
     
  
 

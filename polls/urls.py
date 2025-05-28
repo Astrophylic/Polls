@@ -12,4 +12,6 @@ urlpatterns = [
     path('overview/', views.overview, name='overview'), #perfil
     path('orders/', views.orders, name='orders'), # encuestas
     path('horario/', views.horario, name='horario'), #control de horario
+    path('horario/checkin/', views.check_in, name='check_in'),
+    path('horario/checkout/', views.check_out, name='check_out'),
 ]

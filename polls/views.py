@@ -8,7 +8,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
@@ -124,11 +123,30 @@ def orders(request):
                
 def horario(request):
     usuarios = User.objects.all()
-    return render(request, 'polls/horario.html', {'usuarios': usuarios})
+    checkout = TimeRecord.objects.filter(nombre_usuario=request.user.username, fecha_checkout__isnull=True).last()
+    horas = minutos = segundos = 0
+    if checkout:
+        total = checkout.duration
+        horas = total // 3600
+        minutos = (total % 3600) // 60
+        segundos = total % 60
+    return render(request, 'polls/horario.html', { 'usuarios': usuarios, 'registro': checkout,'horas': horas,'minutos': minutos, 'segundos': segundos})
+    
+
+def check_in(request):
+    if request.method == "POST":
+        if not TimeRecord.objects.filter(nombre_usuario=request.user.username):
+            TimeRecord.objects.create(nombre_usuario=request.user.username)
+    return redirect('polls:horario')
 
 
-
-
+def check_out(request):
+    if request.method == "POST":
+        checkout = TimeRecord.objects.filter(nombre_usuario=request.user.username).last()
+        if checkout:
+            checkout.fecha_checkout = timezone.now()
+            checkout.save()
+    return redirect('polls:horario')
 
 #Pendiente cambiar el nombre del archivo "horario.html" a "controlhoras.html"
 

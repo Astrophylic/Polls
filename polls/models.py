@@ -29,5 +29,14 @@ class TimeRecord(models.Model):
     fecha_checkout = models.DateTimeField(default = timezone.now)
     duracion = models.IntegerField(default= 0)
     
-    
+    @property
+    def duration(self):
+        if self.duracion == 0 and self.fecha_checkout is not None:
+            #restamos la fecha del checkout y la del checkin para saber la duracion
+            self.duracion = int((self.fecha_checkout - self.fecha_checkin).total_seconds())
+            self.save()
+        elif self.fecha_checkout is None:
+            #restamos el tiempo actual con la del checkin para saber cual es el checkout
+            return int((timezone.now() - self.fecha_checkin).total_seconds())
+        return self.duracion
     
