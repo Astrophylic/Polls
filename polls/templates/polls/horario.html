@@ -1,10 +1,26 @@
 <!-- Pruebas// Cambiar el nombre del archivo a uno mas coherente-->
 {% extends 'polls/base.html' %}
 {% load static %}
-{% block content %}
-<h4> Check in / Check out </h4>
-
-{% endblock %}
+    
+    {% block content %}
+    <h4> Polls | Listado de trabajadores </h4>
+    <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in usuarios %}
+                <tr>
+                    <td>{{ x.username }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <br>
+    {% endblock %}
     
  
 

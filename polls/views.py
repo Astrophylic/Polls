@@ -1,10 +1,16 @@
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404,render
+from django.shortcuts import get_object_or_404,render, redirect
 from django.urls import reverse
 from django.views import generic
 from .models import Choice, Question, TimeRecord
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 
 class IndexView(generic.ListView):
@@ -58,10 +64,7 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
-    
-    
-  
-    
+
     class QuestionDetailViewTests(TestCase):
         def test_future_question(self):
             """
@@ -83,13 +86,34 @@ def vote(request, question_id):
             response = self.client.get(url)
             self.assertContains(response, past_question.question_text)
             
-            
 
+#Registro
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Cuenta creada correctamente")
+            return redirect('polls:index')
+
+    else:
+        form = UserCreationForm()
+    return render(request, 'polls/signup.html', {'form': form})
+
+#Inicio de sesion
 def signin(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('polls:overview')
+        else:
+            messages.error(request, "Parametros incorrectos")
     return render(request, 'polls/signin.html')
 
-def signup(request):
-    return render(request, 'polls/signup.html')
+
 
 def overview(request):
     return render(request, 'polls/overview.html')
@@ -99,39 +123,36 @@ def orders(request):
     return render(request, 'polls/orders.html', {'question': question})
                
 def horario(request):
-    return render(request, 'polls/horario.html')
+    usuarios = User.objects.all()
+    return render(request, 'polls/horario.html', {'usuarios': usuarios})
 
-"""
-def contadorhorario(request):
-        cont = timedelta(hours=7,minutes=0)
-        total = cont
-        
-        hh = total.seconds //3600
-        mm = (total.seconds % 3600) //60
-        
-        return render(request,'templates/polls/horario.html',{'horas':hh, 'minutos': mm})
-"""
 
+
+
+
+#Pendiente cambiar el nombre del archivo "horario.html" a "controlhoras.html"
 
 class TimeRecordListView(generic.ListView):
     model = TimeRecord
-    template_name = "polls/timerecordlist.html"
+    template_name = "polls/horario.html"
+    context_object_name = "lista_usuarios"
 
     def get_queryset(self):
-        return TimeRecord.objects.all().order_by("fecha_checkin")
+        return TimeRecord.objects.all().order_by("nombre_usuario","fecha_checkin")
+
 
 class TimeRecordCreateView(generic.CreateView):
     model  = TimeRecord
     fields = ["nombre_usuario", "fecha_checkin", "fecha_checkout", "duracion"]
-    template_name = "polls/timerecordlist.html" #provisional
+    template_name = "polls/horario.html" 
  
 class TimeRecordUpdateView(generic.UpdateView):
     model = TimeRecord
     fields = ["nombre_usuario", "fecha_checkin", "fecha_checkout", "duracion"]
-    template_name = "polls/timerecordlist.html" #provisional
+    template_name = "polls/horario.html" 
     
 class TimeRecordDeleteView(generic.DeleteView):
     model = TimeRecord
-    template_name = "polls/timerecordlist.html" #provisional
+    template_name = "polls/horario.html" 
     
-    
+

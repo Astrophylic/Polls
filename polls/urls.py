@@ -7,10 +7,9 @@ urlpatterns = [
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
     path("<int:question_id>/vote/", views.vote, name="vote"),
-    path('signin/', views.signin, name='signin'),
-    path('signup/', views.signup, name='signup'),
-    path('overview/', views.overview, name='overview'),
-    path('orders/', views.orders, name='orders'),
-    path('horario/', views.horario, name='horario'),
-    #path('contadorhorario/', views.contadorhorario, name='contadorhorario'),
+    path('signin/', views.signin, name='signin'), #inicio de sesion
+    path('signup/', views.signup, name='signup'), #registro
+    path('overview/', views.overview, name='overview'), #perfil
+    path('orders/', views.orders, name='orders'), # encuestas
+    path('horario/', views.horario, name='horario'), #control de horario
 ]

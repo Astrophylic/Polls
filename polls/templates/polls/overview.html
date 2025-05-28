@@ -180,7 +180,7 @@
               <img class="border rounded-circle" src="{% static 'polls/img/avatar/01.jpg' %}" width="48" alt="Andrea Vergara">
               <div class="ps-2">
                 <div class="fs-xs lh-1 opacity-60">Hello,</div>
-                <div class="fs-sm dropdown-toggle">Andrea</div>
+                <div class="fs-sm dropdown-toggle">{{ request.user.username }}</div>
               </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end my-1">
@@ -203,9 +203,9 @@
                 <i class="ai-cart fs-lg opacity-70 me-2"></i>
                 Polls
               </a>
-              <a class="dropdown-item" href="polls:earnings">
+              <a class="dropdown-item" href="{% url 'polls:horario'%}"> <!-- cambiar cuando toque el nombre del archivo -->
                 <i class="ai-activity fs-lg opacity-70 me-2"></i>
-                Earnings
+                Control de Horario
               </a>
               <a class="dropdown-item d-flex align-items-center" href="polls:chat">
                 <i class="ai-messages fs-lg opacity-70 me-2"></i>
@@ -427,7 +427,7 @@
                   <li><a class="dropdown-item" href="settings.html">Settings</a></li>
                   <li><a class="dropdown-item" href="billing.html">Billing</a></li>
                   <li><a class="dropdown-item" href="orders.html">Polls</a></li>
-                  <li><a class="dropdown-item" href="earnings.html">Earnings</a></li>
+                  <li><a class="dropdown-item" href="horario.html">Control de Horario</a></li> <!-- Cambiar cuando toque el nombre del archivo y ponerlo en inglés-->
                   <li><a class="dropdown-item" href="chat.html">Chat (Messages)</a></li>
                   <li><a class="dropdown-item" href="favorites.html">Favorites (Wishlist)</a></li>
                 </ul>
@@ -445,7 +445,7 @@
                   <img class="border rounded-circle" src="{% static 'polls/img/avatar/01.jpg' %}" width="48" alt="Andrea vergara">
                   <div class="ps-2">
                     <div class="fs-xs lh-1 opacity-60">Hello,</div>
-                    <div class="fs-sm dropdown-toggle">Andrea</div>
+                    <div class="fs-sm dropdown-toggle">{{ request.user.username }}</div>
                   </div>
                 </a>
                 <div class="dropdown-menu">
@@ -467,9 +467,9 @@
                     <i class="ai-cart fs-lg opacity-70 me-2"></i>
                     Polls
                   </a>
-                  <a class="dropdown-item" href="earnings.html">
+                  <a class="dropdown-item" href="horario.html"> <!-- Cambiar cuando toque el nombre del archivo y ponerlo en inglés-->
                     <i class="ai-activity fs-lg opacity-70 me-2"></i>
-                    Earnings
+                    Control de Horario
                   </a>
                   <a class="dropdown-item d-flex align-items-center" href="chat.html">
                     <i class="ai-messages fs-lg opacity-70 me-2"></i>
@@ -503,8 +503,7 @@
                 <div class="offcanvas-body">
                   <div class="pb-2 pb-lg-0 mb-4 mb-lg-5">
                     <img class="d-block rounded-circle mb-2" src="{% static 'polls/img/avatar/02.jpg' %}" width="80" alt="Isabella Bocouse">
-                    <h3 class="h5 mb-1">Andrea Vergara</h3>
-                    <p class="fs-sm text-body-secondary mb-0">andrea0709vergara@gmail.com</p>
+                    <h3 class="h5 mb-1">{{ request.user.username }}</h3>
                   </div>
                   <nav class="nav flex-column pb-2 pb-lg-4 mb-3">
                     <h4 class="fs-xs fw-medium text-body-secondary text-uppercase pb-1 mb-2">Account</h4>
@@ -527,9 +526,9 @@
                       <i class="ai-cart fs-5 opacity-60 me-2"></i>
                       Polls
                     </a>
-                    <a class="nav-link fw-semibold py-2 px-0" href="earnings.html">
+                    <a class="nav-link fw-semibold py-2 px-0" href="horario.html"> <!-- Cambiar cuando toque el nombre del archivo y ponerlo en inglés-->
                       <i class="ai-activity fs-5 opacity-60 me-2"></i>
-                      Earnings
+                      Control de Horario
                     </a>
                     <a class="nav-link fw-semibold py-2 px-0" href="chat.html">
                       <i class="ai-messages fs-5 opacity-60 me-2"></i>
@@ -572,11 +571,11 @@
                   <div class="d-sm-flex align-items-center">
                     <div class="rounded-circle bg-size-cover bg-position-center flex-shrink-0" style="width: 80px; height: 80px; background-image: url({% static 'polls/img/avatar/02.jpg' %});"></div>
                     <div class="pt-3 pt-sm-0 ps-sm-3">
-                      <h3 class="h5 mb-2">Andrea Vergara Becerra<i class="ai-circle-check-filled fs-base text-success ms-2"></i></h3>
+                      <h3 class="h5 mb-2">{{ request.user.get_full_name }}</h3><i class="ai-circle-check-filled fs-base text-success ms-2"></i></h3>
                       <div class="text-body-secondary fw-medium d-flex flex-wrap flex-sm-nowrap align-iteems-center">
                         <div class="d-flex align-items-center me-3">
                           <i class="ai-mail me-1"></i>
-                          andrea0709vergara@gmail.com
+                          {{ request.user.email }}
                         </div>
                         <div class="d-flex align-items-center text-nowrap">
                           <i class="ai-map-pin me-1"></i>
@@ -678,7 +677,7 @@
                       </a>
                     </div>
                     <div class="d-flex align-items-center pb-1 mb-2">
-                      <h3 class="h6 mb-0 me-3">Andrea Vergara</h3>
+                      <h3 class="h6 mb-0 me-3">{{ request.user.get_full_name }}</h3>
                       <span class="badge bg-primary bg-opacity-10 text-primary">Primary</span>
                     </div>
                     <div class="d-flex align-items-center pb-4 mb-2 mb-sm-3">
@@ -760,7 +759,7 @@
                   <a class="nav-link fw-normal px-0 py-1" href="#">1501 Main St, Ste 50<br>Tewksbury MA 01876</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link fw-normal px-0 py-1" href="mailto:email@example.com">andrea0709vergara@gmail.com</a>
+                  <a class="nav-link fw-normal px-0 py-1" href="mailto:email@example.com">{{ request.user.email }}</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link fw-normal px-0 py-1" href="+15262200459">+1&nbsp;526&nbsp;220&nbsp;0459</a>
